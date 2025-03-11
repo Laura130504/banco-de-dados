@@ -1,0 +1,303 @@
+-- Creating table clientes
+create table clientes(
+idcli int not null,
+nome varchar(40) not null,
+fone varchar(18) null,
+primary key(idcli)
+);
+
+insert into clientes values (1,'José','9999-9999');
+-- Forçando erro chave primaria
+insert into clientes values (1,'Marçal','7777-8888');
+select * from clientes;
+-- Arrumando erro
+insert into clientes values (2,'Marçal','7777-8888');
+select * from clientes;
+
+-- Erro de estouro de variavel ou truncados
+insert into clientes values (3,'Ana Clara Beatriz da Silva Ferreira Oliveira dos Santos','(14) 99162-3434');
+-- Arrumando o erro
+insert into clientes values (3,'Ana C. B. S. F. O. Santos','(14) 99162-3434');
+
+select * from clientes;
+
+drop table cds;
+
+-- Exemplo 2: Utilizando constraint de auto-incremento
+create table cds (
+cod_cd int identity,
+nome_cd varchar(30) not null,
+dt_lancamento datetime not null,
+primary key(nome_cd)
+);
+
+-- Primary key seria melhor em campos como: id / codigo, CPF / RG / EMAIL / RA - codigo
+
+insert into cds values ('Quatro Estações','2019-10-10');
+-- Forçando erro chave primaria
+insert into cds values ('Quatro Estações','2019-10-10');
+select * from cds;
+-- Arrumando erro
+insert into cds values ('Dois','2019-10-10');
+select * from cds order by cod_cd;
+
+-- Erro de data, o mês é trocado com o dia
+insert into cds values ('Era uma vez','2025-06-08');
+insert into cds values ('Inesquecivel','2025-02-30'); -- Não é inserido pois o dia é trocado com o mês, e não existe mês 30
+-- Corrigindo
+insert into cds values ('Não ter','2025-06-08');
+insert into cds values ('Sábado à noite','2025-09-02');
+
+-- Obs: por se tratar do identity, houve um pulo de sequencia dos cod_cd, pois ele entregou um numero da sequencia para uma linha não inserida
+
+-- Exemplo 3: Criando tabela de clientes com chave composta
+drop table clientes;
+create table clientes(
+codigo_cli int not null,
+nome_cli varchar(40) not null,
+fone_cli varchar(18) null,
+primary key(codigo_cli,nome_cli)
+);
+
+insert into clientes values (1,'Ze','9999-9999');
+insert into clientes values (2,'Ze','9999-9999');
+insert into clientes values (1,'Maria','9999-9999');
+select * from clientes;
+-- Forçando erro chave composta
+insert into clientes values (1,'Ze','1111-2222');
+insert into clientes values (1,'Maria','9999-9999');
+
+-- "Duplicidade de registro", porem só alternando o codigo_cli
+insert into clientes values (3,'Ze','9999-9999');
+insert into clientes values (4,'Ze','9999-9999');
+insert into clientes values (5,'Ze','9999-9999');
+
+drop table clientes;
+create table clientes(
+codigo_cli int identity(0,1) not null,
+nome_cli varchar(40) not null,
+fone_cli varchar(18) null,
+primary key(codigo_cli,nome_cli)
+);
+
+-- Erro de duplicidade de "resgistro" sempre
+insert into clientes values ('Ze','9999-9999');
+insert into clientes values ('Ze','9999-9999');
+insert into clientes values ('Ze','9999-9999');
+insert into clientes values ('Ze','9999-9999');
+insert into clientes values ('Ze','9999-9999');
+-- Ou seja, como a codigo_cli é uma chave primaria composta e possui auto_incremento, nunca dará erro de duplicidade de chaves, pois o codigo_cli sempre se alterará
+select * from clientes;
+
+create database aula4;
+use aula4;
+
+drop table pessoa;
+
+-- Tabela PAI
+create table pessoa(
+idpessoa int identity not null,
+nome varchar(40) not null,
+fone varchar(20) null,
+email varchar(40) null,
+primary key(idpessoa)
+);
+
+insert into pessoa values ('Getulina',NULL,NULL);
+insert into pessoa values ('Geovalda','14 3262-8890',NULL);
+insert into pessoa values ('Graça','14 99798-1234','graça@uol.com.br');
+select * from pessoa;
+
+-- Tabela FILHO (filho pois não consegue existir sem o pai)
+-- Necessita de uma tabela anteriormente criada e 'alimentada'
+create table carro(
+idcarro int identity,
+marca varchar(40) not null,
+modelo varchar(40) not null,
+idpessoa int not null,
+primary key(idcarro),
+foreign key(idpessoa) references pessoa(idpessoa)
+);
+
+insert into carro values ('Ferrari','488 GTB',1); -- Esse id 1 liga esse carro (filho) a pessoa 1 (pai)
+insert into carro values ('Porsche','911',2); -- Esse id 2 liga esse carro (filho) a pessoa 2 (pai)
+insert into carro values ('Fusca','1000',1);
+insert into carro values ('Fiat','147',1);
+insert into carro values ('BMW','Amarela',2);
+insert into carro values ('Ferrari','488 GTB',2);
+-- Erro: não existe o idpessoa = 5
+insert into carro values ('Gordine','488 GTB',5);
+select * from carro;
+
+-- Deixar em branco != nulo
+insert into carro values ('Citroën','',3);
+
+-- Inserindo uma coluna
+alter table carro
+add origem varchar(30) default 'Brasil'; -- Default = caso seja null, inserir o valor 'Brasil'
+
+-- Erro por tentar inserir uma quantidade de valores < quantidade de colunas
+insert into carro values ('Nisan','Versa',2); -- O nome da coluna ou o número de valores fornecidos não corresponde à definição da tabela.
+-- Corrigindo
+insert into carro(marca,modelo,idpessoa) values ('Nisan','Versa',2);
+
+select * from carro;
+
+-- Aula FUTURA
+-- UNIÃO DE TABELAS
+select carro.marca, carro.modelo, pessoa.nome
+from pessoa, carro
+where pessoa.idpessoa = carro.idpessoa;
+
+-- Erro em cadastro
+insert into carro values ('Fiat','Uno',4); -- Não existe id 4 (pai)
+insert into carro values ('Fiat','Uno',3);
+select * from carro;
+
+-- CONSTRAINTS - REGRAS
+-- Default
+create table colegas(
+idcol int identity,
+nome varchar(40) not null,
+cidade varchar(60) default 'Santa Cruz do Rio Pardo',
+idade int default 16,
+primary key(idcol)
+);
+
+insert into colegas values ('Berenice','Agudos',17);
+insert into colegas values ('Bernadete','Jau',default);
+insert into colegas values ('Berlinda',default,18);
+insert into colegas values ('Begonia',default,default);
+insert into colegas values ('Betania', null,null);
+insert into colegas values ('Betania','null',null); -- Erro, vai inserir como string null, como se o nome da cidade fosse null
+insert into colegas values ('Betania','',null); -- Erro, vai inserir o nome da cidade como branco
+
+insert into colegas(nome) values ('Ortalandia');
+
+select * from colegas;
+
+-- Unique
+drop table colegas;
+
+create table colegas(
+idcol int identity not null,
+cpf varchar(20) unique not null, -- O unique aceita uma vez qualquer valor, ou seja, não aceita repetição de valores
+nome varchar(40) not null,
+cidade varchar(60) default 'Santa Cruz do Rio Pardo',
+idade int default 16,
+primary key(idcol)
+);
+
+insert into colegas values ('123456789','Berenice','Agudos',17);
+insert into colegas values ('987654321','Bernadete','Jau',default);
+insert into colegas values ('123459876','Berlinda',default,18);
+insert into colegas values ('987651234','Begonia',default,default);
+insert into colegas values ('','Seila',default,default); -- Vai aceitar o valor em branco, porem só aceitará uma vez
+select * from colegas;
+
+-- Erro
+insert into colegas values ('123456789','Benta','Bauru',27); -- Repetição da coluna que contém o unique
+
+-- Check
+drop table colegas;
+
+create table colegas(
+idcol int identity,
+cpf varchar(20) unique,
+nome varchar(40) not null,
+cidade varchar(60) default 'Santa Cruz do Rio Pardo',
+idade int default 16,
+sexo varchar(1) check(upper(sexo)='M' or upper(sexo)='F'), -- Upper() -> vai deixar em maisculo o valor que receber para testar a condição
+primary key(idcol)
+);
+
+insert into colegas values ('123456789','Berenice','Agudos',17,'f'); -- Vai inserir em minúscula
+insert into colegas values ('987654321','Bernardo','Jau',default,'m'); -- Vai inserir em minúscula
+
+-- Para aceitar/inserir somente em maiúscula? -- Prof consegui não, ele aceita tanto minúscula quanto maiúscula, ajuda eu??
+-- ALTER TABLE colegas
+-- ADD CONSTRAINT sexo_check CHECK (sexo IN ('M', 'F'));
+
+insert into colegas values ('123459876','Berlinda',default,18,'F');
+
+-- Erro
+insert into colegas values ('987651234','Begonia',default,default,'D');
+insert into colegas values ('987651234','Begonia',default,default,'DM'); -- Estouro -> Os dados de sequência ou binários estão truncados na tabela 'aula4.dbo.colegas', coluna 'sexo'. Valor truncado: 'D'.
+-- Concertando
+insert into colegas values ('987651234','Begonia',default,default,'M');
+
+select * from colegas;
+
+create table fornecedores(
+codfor int identity(0,1),
+nome varchar(30) not null,
+fone varchar(20),
+primary key(codfor)
+);
+
+insert into fornecedores values ('Amanda','(14) 99162-3434');
+insert into fornecedores values ('Luciana','(14) 99243-3434');
+insert into fornecedores values ('Fernanda','(14) 98723-3434');
+
+select * from fornecedores;
+
+create table produtos(
+codpro int identity(0,1),
+nome varchar(30) unique,
+produto varchar(30),
+preco decimal(6,2) default 5.99 not null,
+codfor int,
+primary key(codpro),
+foreign key(codfor) references fornecedores(codfor)
+);
+
+insert into produtos values('Tablete de chocolate','Tab.choc',23.99,1);
+insert into produtos values('Tablete de branco','Tab.branc',21.99,1);
+insert into produtos values('Morango','Morang',13.99,0);
+
+-- Pela coluna aceitar nulo, ele inseriu um produto que não contém fornecedor
+insert into produtos(nome,produto,preco) values ('Forma de gelo','For. gelo',11.99);
+
+exec sp_help 'produtos'; -- Mostra a estrutura de uma tabela
+
+-- Erro: tentar excluir uma tabela que é chave estrangeira de outra
+drop table fornecedores; -- Não foi possível descartar o objeto 'fornecedores' porque há referência a ele em uma restrição FOREIGN KEY.
+
+select * from produtos;
+select p.codfor,f.codfor from produtos as p,fornecedores as f where p.codfor=f.codfor;
+
+drop table alunos;
+
+create table alunos(
+cpf bigint not null,
+nome varchar(20) not null,
+sexo varchar(1) check (sexo in('M','F')),
+email varchar(50) unique not null,
+estado_nascimento varchar(30) default 'São Paulo',
+id_curso int not null,
+primary key (cpf),
+foreign key(id_curso) references cursos(id_curso)
+);
+
+INSERT INTO alunos VALUES
+(12345678901, 'João Silva', 'M', 'joao.silva@email.com', 'São Paulo',1),
+(98765432100, 'Maria Oliveira', 'F', 'maria.oliveira@email.com', 'Rio de Janeiro',2),
+(45678901234, 'Carlos Pereira', 'M', 'carlos.pereira@email.com', 'Minas Gerais',3),
+(11223344556, 'Ana Souza', 'F', 'ana.souza@email.com', 'São Paulo',1),
+(99887766554, 'José Santos', 'M', 'jose.santos@email.com', 'Bahia',2);
+
+create table cursos(
+id_curso int identity(1,1),
+tota_semestre int not null,
+nome varchar(20) unique,
+valor decimal(6,2),
+primary key (id_curso)
+);
+
+INSERT INTO cursos (tota_semestre, nome, valor)
+VALUES
+(6, 'Administração', 1500.00),
+(4, 'Engenharia', 2500.00),
+(5, 'Medicina', 4000.00),
+(2, 'Design', 1000.00),
+(3, 'Informática', 1200.00);
