@@ -16,7 +16,7 @@ INSERT INTO Aluno (nome) VALUES
 ('Gisele Moraes'),
 ('Henrique Silva'),
 ('Isabela Dias'),
-('João Victor');
+('JoÃ£o Victor');
 
 
 create table Materia (
@@ -26,16 +26,16 @@ primary key (id)
 );
 
 INSERT INTO Materia (nome) VALUES
-('Matemática'),
-('Português'),
-('História'),
+('MatemÃ¡tica'),
+('PortuguÃªs'),
+('HistÃ³ria'),
 ('Geografia'),
 ('Biologia'),
-('Física'),
-('Química'),
-('Inglês'),
+('FÃ­sica'),
+('QuÃ­mica'),
+('InglÃªs'),
 ('Artes'),
-('Educação Física');
+('EducaÃ§Ã£o FÃ­sica');
 
 
 
