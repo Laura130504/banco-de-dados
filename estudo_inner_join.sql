@@ -10,7 +10,7 @@ insert into Funcionario (nome) values
 ('Ana Souza'),
 ('Carlos Lima'),
 ('Fernanda Rocha'),
-('João Pedro'),
+('JoÃ£o Pedro'),
 ('Marina Silva'),
 ('Bruno Costa'),
 ('Juliana Paes'),
@@ -26,7 +26,7 @@ tipo  varchar(9) not null default 'TRANSPOR'  check(upper(tipo)='TRANSPOR'  or
 												    upper(tipo)='RESGATE'   or 
 													upper(tipo)='SUP.AVANC' or 
 													upper(tipo)='AERONAVE'  or 
-													upper(tipo)='AQUÁTICO')
+													upper(tipo)='AQUÃTICO')
 				
 primary key (idAmb)
 );
@@ -37,7 +37,7 @@ insert into Ambulancia (tipo) values
 ('RESGATE'),
 ('SUP.AVANC'),
 ('AERONAVE'),
-('AQUÁTICO'),
+('AQUÃTICO'),
 ('SUP.BASIC'),
 ('TRANSPOR'),
 ('RESGATE'),
@@ -58,7 +58,7 @@ insert into Equipe (nomeEquipe, idAmb) values
 ('Equipe Beta', 2),
 ('Equipe Gama', 3),
 ('Equipe Delta', 4),
-('Equipe Épsilon', 5),
+('Equipe Ã‰psilon', 5),
 ('Equipe Zeta', 6),
 ('Equipe Eta', 7),
 ('Equipe Teta', 8),
@@ -109,19 +109,19 @@ insert into Chamado (idFunc, idEqu, idCoor, solicitante) values
 (5, 5, 5, 'Tatiane Lopes'),
 (6, 6, 6, 'Guilherme Pinto'),
 (7, 7, 7, 'Carla Ribeiro'),
-(8, 8, 8, 'Vinícius Araujo'),
+(8, 8, 8, 'VinÃ­cius Araujo'),
 (9, 9, 9, 'Larissa Castro'),
 (10, 10, 10, 'Daniela Freitas');
 
 
 
--- 2.1 - Dados do chamado e dados do funcionário
+-- 2.1 - Dados do chamado e dados do funcionÃ¡rio
 Select c.solicitante,
 	   f.nome as 'Funcionario'
 from Chamado c inner join Funcionario f on c.idFunc = f.idFunc;
 
 
--- 2.2 - - Dados do chamado, funcionário e dados da equipe 
+-- 2.2 - - Dados do chamado, funcionÃ¡rio e dados da equipe 
 Select c.solicitante,
 	   f.nome as 'Funcionario',
 	   e.nomeEquipe 'Nome da equipe'
@@ -129,7 +129,7 @@ from Chamado c inner join Funcionario f on  c.idFunc = f.idFunc
 			   inner join Equipe e      on  c.idEqu = e.idEqu;
 
 
--- 2.3 -  Dados do chamado, funcionário, equipe e coordenadas
+-- 2.3 -  Dados do chamado, funcionÃ¡rio, equipe e coordenadas
 Select c.solicitante,
 	   f.nome as 'Funcionario',
 	   e.nomeEquipe 'Nome da equipe',
@@ -138,7 +138,7 @@ from Chamado c inner join Funcionario f on  c.idFunc = f.idFunc
 			   inner join Equipe e      on  c.idEqu = e.idEqu
 			   inner join Coordenadas co on c.idCoor = co.idCoor;
 
--- 2.4 -  Dados do chamado, funcionário, coordenadas, equipe e ambulância
+-- 2.4 -  Dados do chamado, funcionÃ¡rio, coordenadas, equipe e ambulÃ¢ncia
 
 Select c.solicitante,
 	   f.nome as 'Funcionario',
