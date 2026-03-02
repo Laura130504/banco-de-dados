@@ -30,14 +30,14 @@ idimo   int			 identity(1,1)
 
 INSERT INTO Imovel (quartos, numero, rua) VALUES (2, 101, 'Rua das Flores');
 INSERT INTO Imovel (quartos, numero, rua) VALUES (3, 202, 'Avenida Brasil');
-INSERT INTO Imovel (quartos, numero, rua) VALUES (1, 55, 'Rua Jo„o Paulo');
+INSERT INTO Imovel (quartos, numero, rua) VALUES (1, 55, 'Rua Jo√£o Paulo');
 INSERT INTO Imovel (quartos, numero, rua) VALUES (4, 78, 'Rua das Palmeiras');
-INSERT INTO Imovel (quartos, numero, rua) VALUES (2, 12, 'Rua Santo AntÙnio');
-INSERT INTO Imovel (quartos, numero, rua) VALUES (3, 305, 'Avenida Get˙lio Vargas');
+INSERT INTO Imovel (quartos, numero, rua) VALUES (2, 12, 'Rua Santo Ant√¥nio');
+INSERT INTO Imovel (quartos, numero, rua) VALUES (3, 305, 'Avenida Get√∫lio Vargas');
 INSERT INTO Imovel (quartos, numero, rua) VALUES (1, 89, 'Travessa da Paz');
 INSERT INTO Imovel (quartos, numero, rua) VALUES (2, 150, 'Rua Dom Pedro');
 INSERT INTO Imovel (quartos, numero, rua) VALUES (3, 230, 'Rua Quinze de Novembro');
-INSERT INTO Imovel (quartos, numero, rua) VALUES (4, 404, 'Rua das Ac·cias');
+INSERT INTO Imovel (quartos, numero, rua) VALUES (4, 404, 'Rua das Ac√°cias');
 
 
 create table Corretor(
@@ -50,7 +50,7 @@ unidade    int
 INSERT INTO Corretor (nome, telefone, unidade) VALUES ('Marcos Pereira', '(14) 98877-1234', 1);
 INSERT INTO Corretor (nome, telefone, unidade) VALUES ('Luciana Tavares', '(14) 98766-2345', 2);
 INSERT INTO Corretor (nome, telefone, unidade) VALUES ('Tiago Santos', '(14) 99655-3456', 1);
-INSERT INTO Corretor (nome, telefone, unidade) VALUES ('PatrÌcia Ramos', '(14) 99444-4567', 3);
+INSERT INTO Corretor (nome, telefone, unidade) VALUES ('Patr√≠cia Ramos', '(14) 99444-4567', 3);
 INSERT INTO Corretor (nome, telefone, unidade) VALUES ('Ricardo Almeida', '(14) 99333-5678', 2);
 INSERT INTO Corretor (nome, telefone, unidade) VALUES ('Vanessa Cruz', '(14) 99222-6789', 1);
 INSERT INTO Corretor (nome, telefone, unidade) VALUES ('Eduardo Martins', '(14) 99111-7890', 3);
@@ -70,7 +70,7 @@ CPF        varchar(30)
 INSERT INTO Inquilino (nome, telefone, CPF) VALUES ('Bruna Nascimento', '(14) 98811-2233', '123.456.789-01');
 INSERT INTO Inquilino (nome, telefone, CPF) VALUES ('Rafael Teixeira', '(14) 98722-3344', '234.567.890-12');
 INSERT INTO Inquilino (nome, telefone, CPF) VALUES ('Juliane Lopes', '(14) 98633-4455', '345.678.901-23');
-INSERT INTO Inquilino (nome, telefone, CPF) VALUES ('F·bio Moura', '(14) 98544-5566', '456.789.012-34');
+INSERT INTO Inquilino (nome, telefone, CPF) VALUES ('F√°bio Moura', '(14) 98544-5566', '456.789.012-34');
 INSERT INTO Inquilino (nome, telefone, CPF) VALUES ('Sandra Carvalho', '(14) 98455-6677', '567.890.123-45');
 INSERT INTO Inquilino (nome, telefone, CPF) VALUES ('Daniel Borges', '(14) 98366-7788', '678.901.234-56');
 INSERT INTO Inquilino (nome, telefone, CPF) VALUES ('Alessandra Pires', '(14) 98277-8899', '789.012.345-67');
@@ -101,7 +101,7 @@ INSERT INTO Aluguel (idProp, idImo, idCor, idInq, valorMensal, dataContrato) VAL
 INSERT INTO Aluguel (idProp, idImo, idCor, idInq, valorMensal, dataContrato) VALUES (9, 9, 9, 9, 1400.00, '2024-08-18');
 INSERT INTO Aluguel (idProp, idImo, idCor, idInq, valorMensal, dataContrato) VALUES (10, 10, 10, 10, 1250.00, '2024-09-30');
 
--- 1.a) Dados do aluguel e o nome do propriet·rio
+-- 1.a) Dados do aluguel e o nome do propriet√°rio
 
 select a.valorMensal, a.dataContrato,
 	   p.nome as 'Proprietario'
@@ -112,35 +112,35 @@ from Aluguel a	inner join Proprietario p on a.idProp = p.idprop
 				inner join Inquilino inq  on a.idInq  = inq.idInq;
 
 
--- 1.b) Dados do aluguel, dados do propriet·rio e dados do imÛvel
+-- 1.b) Dados do aluguel, dados do propriet√°rio e dados do im√≥vel
 
 select a.valorMensal, a.dataContrato,
 	   p.nome as 'Proprietario',p.telefone 'Tel. do proprietario',
-	   CONCAT( i.rua ,', ' , i.numero) as 'EndereÁo', i.quartos as 'Quant. de quartos'
+	   CONCAT( i.rua ,', ' , i.numero) as 'Endere√ßo', i.quartos as 'Quant. de quartos'
 
 from Aluguel a	inner join Proprietario p on a.idProp = p.idprop
 				inner join Imovel i       on a.idImo  = i.idimo
 				inner join Corretor c     on a.idCor  = c.idCor
 				inner join Inquilino inq  on a.idInq  = inq.idInq;
 
--- 1.c)  Dados do aluguel, propriet·rio, imÛvel e dados do corretor
+-- 1.c)  Dados do aluguel, propriet√°rio, im√≥vel e dados do corretor
 
 select a.valorMensal, a.dataContrato,
 	   p.nome as 'Proprietario',p.telefone 'Tel. do proprietario',
-	   CONCAT( i.rua ,', ' , i.numero) as 'EndereÁo', i.quartos as 'Quant. de quartos',
-	   c.nome as 'corretor', c.telefone 'Tel. do corretor', c.unidade as 'Unid. de atuaÁ„o'
+	   CONCAT( i.rua ,', ' , i.numero) as 'Endere√ßo', i.quartos as 'Quant. de quartos',
+	   c.nome as 'corretor', c.telefone 'Tel. do corretor', c.unidade as 'Unid. de atua√ß√£o'
 	   
 from Aluguel a	inner join Proprietario p on a.idProp = p.idprop
 				inner join Imovel i       on a.idImo  = i.idimo
 				inner join Corretor c     on a.idCor  = c.idCor
 				inner join Inquilino inq  on a.idInq  = inq.idInq;
 
--- 1.d)  Dados do aluguel, propriet·rio, imÛvel, corretor e dados do inquilino
+-- 1.d)  Dados do aluguel, propriet√°rio, im√≥vel, corretor e dados do inquilino
 
 select a.valorMensal, a.dataContrato,
 	   p.nome as 'Proprietario',p.telefone 'Tel. do proprietario',
-	   CONCAT( i.rua ,', ' , i.numero) as 'EndereÁo', i.quartos as 'Quant. de quartos',
-	   c.nome as 'corretor', c.telefone 'Tel. do corretor', c.unidade as 'Unid. de atuaÁ„o',
+	   CONCAT( i.rua ,', ' , i.numero) as 'Endere√ßo', i.quartos as 'Quant. de quartos',
+	   c.nome as 'corretor', c.telefone 'Tel. do corretor', c.unidade as 'Unid. de atua√ß√£o',
 	   inq.nome as 'Inquilino', inq.telefone as 'Tel. do inquilino', inq.CPF as 'CPF do Inquil.'
 	   
 from Aluguel a	inner join Proprietario p on a.idProp = p.idprop
