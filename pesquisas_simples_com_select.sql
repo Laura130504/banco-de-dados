@@ -45,34 +45,34 @@ INSERT INTO Produtos (nome, preco, fabricacao, validade) VALUES
  where validade <= getdate();
 
 
- --  4 - Verificar que produtos foram fabricados nos meses de março e abril 
+ --  4 - Verificar que produtos foram fabricados nos meses de marÃ§o e abril 
  select nome
  from Produtos
  where month(fabricacao) = 4 or  month(fabricacao) = 5;
 
 
- --  5 - Verificar produtos com a data de fabricação do ano de 2019
+ --  5 - Verificar produtos com a data de fabricaÃ§Ã£o do ano de 2019
   select nome
  from Produtos
  where year(fabricacao) = 2019;
 
 
  --  6 - Calcular a data de validade dos produtos 90 dias depois de fabricados
- select nome, fabricacao, convert(date,(fabricacao + 90)) as 'Validade após 90 dias' 
+ select nome, fabricacao, convert(date,(fabricacao + 90)) as 'Validade apÃ³s 90 dias' 
  from Produtos;
 
 
 --  7 - Calcular a data de validade dos produtos 6 meses depois de fabricados
- select nome, convert(date,fabricacao) 'fabricacao' , convert(date,(fabricacao + 180)) as 'Validade =/- após 6 meses' 
+ select nome, convert(date,fabricacao) 'fabricacao' , convert(date,(fabricacao + 180)) as 'Validade =/- apÃ³s 6 meses' 
  from Produtos;
 
  --ou
 
- select nome, convert(date,fabricacao) 'fabricacao' , convert(date,(dateadd(month,6,fabricacao))) as  'Validade  após 6 meses' 
+ select nome, convert(date,fabricacao) 'fabricacao' , convert(date,(dateadd(month,6,fabricacao))) as  'Validade  apÃ³s 6 meses' 
  from Produtos;
 
 
- -- 8 - Calcular há quantos dias um produto entrou no estoque 
+ -- 8 - Calcular hÃ¡ quantos dias um produto entrou no estoque 
  
  select nome, 
 		entrada  , 
@@ -80,25 +80,25 @@ INSERT INTO Produtos (nome, preco, fabricacao, validade) VALUES
  from Produtos;
 
 
---  9 - Mostrar o preço de todos os produtos com data de validade superior a abril de 2018
+--  9 - Mostrar o preÃ§o de todos os produtos com data de validade superior a abril de 2018
 select * 
 from Produtos
 where validade >= '2018-05-30';  
 
 
--- 10 - Mostrar os produtos fabricamos entre os dias 12 de março e 22 de abril
+-- 10 - Mostrar os produtos fabricamos entre os dias 12 de marÃ§o e 22 de abril
 select * 
 from Produtos
 where (day(fabricacao) >= '12' and day(fabricacao) >= '22') and (month(fabricacao) >= '4' and month(fabricacao) >= '5');
 
 
--- 11 - Mostrar o produto mais antigo no estoque – data de entrada
+-- 11 - Mostrar o produto mais antigo no estoque â€“ data de entrada
 
 select top 3 nome, entrada, validade 
 from Produtos 
 order by entrada;
 
--- 12 - Mostrar o produto mais novo – data de fabricação
+-- 12 - Mostrar o produto mais novo â€“ data de fabricaÃ§Ã£o
 
 select top 3 nome, fabricacao 
 from Produtos 
@@ -131,7 +131,7 @@ order by fabricacao desc;
  where year(entrada) = '2025';
 
 
- --  17 - Qual a média de preço dos produtos com validade vencida
+ --  17 - Qual a mÃ©dia de preÃ§o dos produtos com validade vencida
 
  
  select cast(avg(preco) as decimal(9,2)) as 'preco medio perdido '
